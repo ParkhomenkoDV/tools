@@ -3,12 +3,8 @@ import time
 
 name = 'tools'
 
-Y, m, d, H, M, S = time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime()).split('.')
-H, M, S = str(int(H) + 1), str(int(M) + 1), str(int(S) + 1)
-if len(H) == 1: H = '0' + H
-if len(M) == 1: M = '0' + M
-if len(S) == 1: S = '0' + S
-version = '.'.join([Y, M, d, H, M, S])  # для предотвращения конфликта .00.
+Y, m, d, H, M, S = time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime()).split('.')  # конфликт версии .00.
+version = '.'.join([Y, M, d, f'0{str(int(H) + 1)}'[-2:], f'0{str(int(M) + 1)}'[-2:], f'0{str(int(S) + 1)}'[-2:]])
 
 with open('README.md', 'rt', encoding='utf-8') as file:
     long_description = file.read()
