@@ -1,0 +1,7 @@
+tqdm
+colorama
+pandas
+numpy
+matplotlib
+
+git+https://github.com/ParkhomenkoDV/decorators.git@master
