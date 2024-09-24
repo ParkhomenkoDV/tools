@@ -2,8 +2,13 @@ from setuptools import setup, find_packages
 import time
 
 name = 'tools'
-version = time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime())
-print(version)
+
+Y, m, d, H, M, S = time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime()).split('.')
+H, M, S = str(int(H) + 1), str(int(M) + 1), str(int(S) + 1)
+if len(H) == 1: H = '0' + H
+if len(M) == 1: M = '0' + M
+if len(S) == 1: S = '0' + S
+version = '.'.join([Y, M, d, H, M, S])  # для предотвращения конфликта .00.
 
 with open('README.md', 'rt', encoding='utf-8') as file:
     long_description = file.read()
