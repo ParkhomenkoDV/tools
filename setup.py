@@ -3,9 +3,6 @@ import time
 
 name = 'tools'
 
-Y, m, d, H, M, S = time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime()).split('.')  # конфликт версии .00.
-version = '.'.join([Y, M, d, f'0{str(int(H) + 1)}'[-2:], f'0{str(int(M) + 1)}'[-2:], f'0{str(int(S) + 1)}'[-2:]])
-
 with open('README.md', 'rt', encoding='utf-8') as file:
     long_description = file.read()
 
@@ -14,7 +11,7 @@ with open('requirements.txt', 'rt') as file:
 
 setup(
     name=name,
-    version=version,
+    version=time.strftime('%Y.%m.%d.%H.%M.%S', time.localtime()),
     description='lib',
     long_description=long_description,
     long_description_content_type='text/markdown',  # если long_description = .md
