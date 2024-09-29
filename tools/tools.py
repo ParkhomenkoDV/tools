@@ -34,9 +34,9 @@ def find(name: str, path: str = os.getcwd()) -> list[str]:
 
 def clear_dir(dir: str):
     """Удаление файлов и директории в указанной директории"""
-    assert isinstance(dir, str), f'"{dir}" is  not str'
-    assert os.path.exists(dir), f'"{dir}" not exists'
-    assert os.path.isdir(dir), f'"{dir}" is nor a directory'
+    assert isinstance(dir, str), f'"{dir}" is not str'
+    assert os.path.exists(dir), f'"{dir}" directory is not exists'
+    assert os.path.isdir(dir), f'"{dir}" is not a directory'
 
     for file in os.listdir(dir):
         path = os.path.join(dir, file)
@@ -281,103 +281,6 @@ def meke_calc(n):
     return n
 
 
-def smart_input(message: str = '', error_message: str = '',
-                type_input: str = 'str',
-                exceptions=[],
-                borders=[-inf, +inf], borders_exceptions: list[int] = []):
-    while True:
-        var = input(message)
-
-        if type_input.lower() in ('str', 'string'):
-            try:
-                var = str(var)
-                if var not in exceptions:
-                    if borders[0] <= len(var) <= borders[1] and len(var) not in borders_exceptions:
-                        return var
-            except:
-                pass
-            if error_message:
-                print(f'{Fore.RED}{error_message}')
-            else:
-                print(f'{Fore.RED}Incorrect input!',
-                      f'Input type must be {type_input}',
-                      f'without {exceptions}',
-                      f'with length in {borders[0]}..{borders[1]} without {borders_exceptions}!',
-                      sep='\n')
-            continue
-
-        elif type_input.lower() in ('int', 'integer'):
-            try:
-                var = int(var)
-                if var not in exceptions:
-                    if borders[0] <= var <= borders[1] and var not in borders_exceptions:
-                        return var
-            except:
-                pass
-            if error_message:
-                print(f'{Fore.RED}{error_message}')
-            else:
-                print(f'{Fore.RED}Incorrect input!',
-                      f'Input type must be {type_input}',
-                      f'without {exceptions}',
-                      f'in {borders[0]}..{borders[1]} without {borders_exceptions}!',
-                      sep='\n')
-            continue
-
-        elif type_input.lower() in ('float', 'real'):
-            try:
-                var = float(var)
-                if var not in exceptions:
-                    if borders[0] <= var <= borders[1] and var not in borders_exceptions:
-                        return var
-            except:
-                pass
-            if error_message:
-                print(f'{Fore.RED}{error_message}')
-            else:
-                print(f'{Fore.RED}Incorrect input!',
-                      f'Input type must be {type_input}',
-                      f'without {exceptions}',
-                      f'in {borders[0]}..{borders[1]} without {borders_exceptions}!',
-                      sep='\n')
-            continue
-
-
-def input_clever(message: str = ''):
-    while True:
-        var = input(message)
-
-        if 'list' in var.lower():
-            if var.count('(') == 1 and var.count(')') == 1:
-                var = var[var.index('('):var.index(')')]
-                var = var.split(', ')
-                if 1 <= len(var):
-                    return var
-            print('Examples "arange" input: arange(9.6) or arange(-3.2, 9) or arange(-3.2, 9, 2.3)')
-
-        elif 'arange' in var.lower():
-            if var.count('(') == 1 and var.count(')') == 1:
-                var = var[var.index('('):var.index(')')]
-                var = var.split(', ')
-                if 1 <= len(var) <= 3:
-                    start = float(var[0]) if 2 <= len(var) <= 3 else 0
-                    stop = float(var[1]) if 2 <= len(var) <= 3 else var[0]
-                    step = float(var[2]) if len(var) == 3 else 1
-                    return list(arange(start, stop, step))
-            print('Examples "arange" input: arange(9.6) or arange(-3.2, 9) or arange(-3.2, 9, 2.3)')
-
-        elif 'linspace' in var.lower():
-            if var.count('(') == 1 and var.count(')') == 1:
-                var = var[var.index('('):var.index(')')]
-                var = var.split(', ')
-                if len(var) == 3:
-                    start = float(var[0])
-                    stop = float(var[1])
-                    num = int(var[2])
-                    return list(linspace(start, stop, num))
-            print('Examples "linspace" input: linspace(-3.2, 9, 2)')
-
-
 if __name__ == '__main__':
     clear_dir('t')
     exit()
@@ -390,7 +293,6 @@ if __name__ == '__main__':
     print(f'results: {results}')
 
     exit()
-    print(smart_input(message='>>>', borders=[0, 7], borders_exceptions=[3]))
 
     print(isnum(str(nan)))
     print(rounding(-23456734567.8, 2))  # bug
