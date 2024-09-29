@@ -1,18 +1,14 @@
 import os
-from tqdm import tqdm
-from colorama import Fore
-
-import pandas as pd
-import numpy as np
-from numpy import array, arange, linspace
-from numpy import nan, isnan, inf, isinf, pi
-from numpy import sin, cos, tan, arctan as atan, sqrt, matmul, resize
-import matplotlib.pyplot as plt
-
+import time
 import multiprocessing as mp
 import threading as th
 
-import time
+from tqdm import tqdm
+from colorama import Fore
+import pandas as pd
+import numpy as np
+from numpy import array, arange, linspace
+import matplotlib.pyplot as plt
 
 from decorators import timeit
 
@@ -50,52 +46,6 @@ def clear_dir(dir: str):
                 raise Exception(f'"{path}" is not a file or a directory')
         except Exception as exception:
             print(f"Failed to delete {path}. Reason: {exception}")
-
-
-@timeit(4)
-def export2(data, file_path='exports', file_name='export_file', file_extension='', show_time=False, **kwargs) -> None:
-    """Вывод в файл"""
-    assert type(data) == pd.DataFrame or data is plt, 'data must be a DataFrame or matplotlib.pyplot!'
-    assert type(file_path) == str, 'type(file_path) must be a string!'
-    assert type(file_name) == str, 'type(file_name) must be a string!'
-    assert type(file_extension) == str, 'type(file_extension) must be a string!'
-    assert file_extension.strip(), 'Empty file_extension!'
-    EXTENSIONS = ('txt', 'csv', 'xlsx', 'png', 'pdf', 'svg', 'pkl')
-    assert file_extension in EXTENSIONS, f'Unknown extension {file_extension}!'
-    file_extension = file_extension.strip().lower()
-
-    os.makedirs(file_path, exist_ok=True)
-    file_path = os.getcwd() + '/' + file_path
-
-    сtime = ' ' + time.strftime('%y-%m-%d-%H-%M-%S', time.localtime()) if show_time is True else ''
-
-    print(Fore.YELLOW + f'"{file_path}/{file_name}{сtime}.{file_extension}" file exporting', end='')
-    if type(data) is pd.DataFrame:
-        if file_extension == 'txt':
-            data.to_csv(f'{file_path}/{file_name}{сtime}.{file_extension}', header=kwargs.get('header', True),
-                        index=False)
-        elif file_extension == 'csv':
-            data.to_csv(f'{file_path}/{file_name}{сtime}.{file_extension}', header=kwargs.get('header', True),
-                        index=False)
-        elif file_extension == 'xlsx':
-            data.to_excel(f'{file_path}/{file_name}{сtime}.{file_extension}',
-                          sheet_name=kwargs.get('sheet_name', '1'),
-                          header=kwargs.get('header', True), index=kwargs.get('index', False))
-        elif file_extension.lower() == 'pkl':
-            data.to_pickle(f'{file_path}/{file_name}{сtime}.{file_extension.lower()}')
-        else:
-            print(Fore.RED + 'No such file extension!')
-    elif data is plt:
-        if file_extension in ('png', 'pdf', 'svg'):
-            data.savefig(f'{file_path}/{file_name}{сtime}.{file_extension}',
-                         dpi=kwargs.get('dpi', 300),  # разрешение на дюйм
-                         bbox_inches='tight',  # обрезать по максимуму
-                         transparent=False)  # прозрачность
-
-    else:
-        print(f'{Fore.RED}File type {file_extension} did not find!')
-
-    print(Fore.GREEN + f'\r"{file_path}/{file_name}{сtime}.{file_extension}" file has created!')
 
 
 def isnum(s, type_num: str = 'float') -> bool:
@@ -227,9 +177,6 @@ def show_correlation(df, show_num=True, cmap='bwr', fmt=4, savefig=False, **kwar
             for col in range(len(cor.columns)):
                 ax.text(row, col, cor.to_numpy()[row, col],
                         ha="center", va="center", color='black', fontsize=12, rotation=45)
-
-    if savefig: export2(plt, file_path='exports/correlation',
-                        file_name='correlation', show_time=True, file_extension='png', **kwargs)
 
     plt.show()
 
